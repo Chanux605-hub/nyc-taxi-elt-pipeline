@@ -1,0 +1,27 @@
+# Environment & secrets
+.env
+*.env
+
+# Data files (too large for git)
+data/
+*.parquet
+*.csv
+*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# dbt
+dbt/taxi_pipeline/target/
+dbt/taxi_pipeline/dbt_packages/
+dbt/taxi_pipeline/logs/
+
+# Airflow
+airflow/logs/
+airflow/plugins/__pycache__/
+
+# OS
+.DS_Store

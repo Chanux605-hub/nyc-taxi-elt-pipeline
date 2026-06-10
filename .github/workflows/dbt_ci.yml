@@ -1,0 +1,26 @@
+name: dbt CI
+
+on:
+  pull_request:
+    paths:
+      - 'dbt/**'
+
+jobs:
+  dbt-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dbt
+        run: pip install dbt-snowflake
+      - name: Run dbt tests
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          cd dbt/taxi_pipeline
+          dbt deps
+          dbt test
