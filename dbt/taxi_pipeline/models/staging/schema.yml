@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_yellow_trips
+    description: "Cleaned and filtered NYC yellow taxi trips"
+    columns:
+      - name: pickup_datetime
+        description: "Trip pickup timestamp"
+        tests:
+          - not_null
+      - name: trip_distance
+        description: "Trip distance in miles"
+        tests:
+          - not_null
+      - name: fare_amount
+        description: "Base fare amount"
+        tests:
+          - not_null
+      - name: payment_type
+        description: "Payment method used"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6]
+
+  - name: stg_taxi_zones
+    description: "Clean NYC taxi zone lookup table"
+    columns:
+      - name: location_id
+        description: "Unique zone identifier"
+        tests:
+          - not_null
+          - unique
+      - name: borough
+        description: "NYC borough name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island', 'EWR', 'Unknown']
