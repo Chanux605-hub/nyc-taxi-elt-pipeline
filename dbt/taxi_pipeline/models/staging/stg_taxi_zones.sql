@@ -1,7 +1,9 @@
+-- getting raw data
 with source as(
     select * from {{ source('raw', 'taxi_zones') }}
 ),
 
+-- cleaning data
 cleaned as (
     select
         LOCATIONID                                    as location_id,
