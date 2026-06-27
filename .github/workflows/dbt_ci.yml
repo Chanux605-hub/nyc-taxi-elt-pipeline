@@ -1,26 +1,62 @@
 name: dbt CI
 
 on:
+  workflow_dispatch:
   pull_request:
+    paths:
+      - 'dbt/**'
+  push:
+    branches:
+      - main
     paths:
       - 'dbt/**'
 
 jobs:
   dbt-test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
       - name: Install dbt
         run: pip install dbt-snowflake
-      - name: Run dbt tests
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << EOF
+          taxi_pipeline:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                user: ${{ secrets.SNOWFLAKE_USER }}
+                password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+                role: SYSADMIN
+                database: taxi_db
+                warehouse: taxi_wh
+                schema: staging
+                threads: 4
+          EOF
+
+      - name: Install dbt packages
         run: |
           cd dbt/taxi_pipeline
           dbt deps
+
+      - name: Run dbt models
+        run: |
+          cd dbt/taxi_pipeline
+          dbt run
+
+      - name: Run dbt tests
+        run: |
+          cd dbt/taxi_pipeline
           dbt test

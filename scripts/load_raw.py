@@ -68,9 +68,11 @@ def load_yellow_trips(cursor):
 
     files = [
         "yellow_tripdata_2024-01.parquet",
-        "yellow_tripdata_2024-02.parquet",
-        "yellow_tripdata_2024-03.parquet"
+
     ]
+
+    #"yellow_tripdata_2024-02.parquet","yellow_tripdata_2024-03.parquet"
+        
 
     for file in files:
         file_path = os.path.join(raw_dir, file)
