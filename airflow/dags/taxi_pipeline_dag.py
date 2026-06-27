@@ -58,7 +58,7 @@ ingest_data = BashOperator(
 # Transforms RAW → staging → intermediate → marts in Snowflake
 dbt_run = BashOperator(
     task_id='dbt_run',
-    bash_command='cd /opt/airflow/project/dbt/taxi_pipeline && dbt run --profiles-dir /opt/airflow/project/dbt/taxi_pipeline',
+    bash_command='cd /opt/airflow/project/dbt/taxi_pipeline && /home/airflow/.local/bin/dbt deps --profiles-dir /opt/airflow/project/dbt/taxi_pipeline && /home/airflow/.local/bin/dbt run --profiles-dir /opt/airflow/project/dbt/taxi_pipeline',
     dag=dag,
 )
 
@@ -66,7 +66,7 @@ dbt_run = BashOperator(
 # Runs all 18 data quality tests to verify the pipeline output
 dbt_test = BashOperator(
     task_id='dbt_test',
-    bash_command='cd /opt/airflow/project/dbt/taxi_pipeline && dbt test --profiles-dir /opt/airflow/project/dbt/taxi_pipeline',
+    bash_command='cd /opt/airflow/project/dbt/taxi_pipeline && /home/airflow/.local/bin/dbt test --profiles-dir /opt/airflow/project/dbt/taxi_pipeline',
     dag=dag,
 )
 
