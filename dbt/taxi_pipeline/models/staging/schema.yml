@@ -1,3 +1,4 @@
+# dbt CI test trigger
 version: 2
 
 models:
