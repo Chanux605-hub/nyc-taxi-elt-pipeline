@@ -18,6 +18,7 @@ venv/
 dbt/taxi_pipeline/target/
 dbt/taxi_pipeline/dbt_packages/
 dbt/taxi_pipeline/logs/
+dbt/taxi_pipeline/profiles.yml
 
 # Airflow
 airflow/logs/

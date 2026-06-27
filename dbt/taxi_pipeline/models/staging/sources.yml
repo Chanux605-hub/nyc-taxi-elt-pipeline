@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    database: taxi_db
+    schema: raw
+    tables:
+      - name: yellow_trips
+      - name: taxi_zones

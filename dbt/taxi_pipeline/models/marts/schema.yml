@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: fct_trips
+    description: "Final fact table with one row per taxi trip including zone names and duration"
+    columns:
+      - name: trip_id
+        description: "Unique surrogate key for each trip"
+        tests:
+          - not_null
+          - unique
+      - name: pickup_datetime
+        description: "Trip pickup timestamp"
+        tests:
+          - not_null
+      - name: total_amount
+        description: "Total fare amount charged"
+        tests:
+          - not_null
+      - name: pickup_zone
+        description: "Pickup zone name"
+        tests:
+          - not_null
+      - name: dropoff_zone
+        description: "Dropoff zone name"
+        tests:
+          - not_null
+
+  - name: dim_zones
+    description: "Dimension table of all NYC taxi zones"
+    columns:
+      - name: location_id
+        description: "Unique zone identifier"
+        tests:
+          - not_null
+          - unique
+      - name: borough
+        description: "NYC borough name"
+        tests:
+          - not_null
