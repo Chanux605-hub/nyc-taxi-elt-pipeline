@@ -1,0 +1,13 @@
+taxi_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: mu01428.ap-south-1.aws
+      user: pipeline_user
+      password: Chanuka2002
+      role: SYSADMIN
+      database: taxi_db
+      warehouse: taxi_wh
+      schema: staging
+      threads: 4
